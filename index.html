@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Poppy Playtime — Chapters 1–4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --void: #030304;
+      --surface: #0a0a0f;
+      --surface-2: #12121a;
+      --text: #ececf1;
+      --muted: #8b8fa3;
+      --blood: #c41e3a;
+      --blood-dim: rgba(196, 30, 58, 0.35);
+      --ice: #3d8bfd;
+      --ice-dim: rgba(61, 139, 253, 0.3);
+      --moss: #2ee59d;
+      --moss-dim: rgba(46, 229, 157, 0.22);
+      --violet: #a855f7;
+      --violet-dim: rgba(168, 85, 247, 0.28);
+      --radius: 14px;
+      --font: "DM Sans", system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--void);
+      line-height: 1.55;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 100% 70% at 50% -30%, rgba(196, 30, 58, 0.18), transparent 50%),
+        radial-gradient(ellipse 80% 50% at 100% 40%, rgba(61, 139, 253, 0.08), transparent 45%),
+        radial-gradient(ellipse 60% 40% at 0% 90%, rgba(168, 85, 247, 0.1), transparent 40%),
+        linear-gradient(180deg, #050506 0%, var(--void) 45%, #060608 100%);
+    }
+
+    .bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3.5rem;
+    }
+
+    .site-header {
+      text-align: center;
+      margin-bottom: 2.75rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .warning {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0 0 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #ffc9d4;
+      background: linear-gradient(135deg, rgba(196, 30, 58, 0.2), rgba(40, 10, 20, 0.6));
+      border: 1px solid rgba(196, 30, 58, 0.45);
+      border-radius: 6px;
+      box-shadow: 0 0 24px var(--blood-dim);
+    }
+
+    .site-header h1 {
+      font-family: "Creepster", cursive;
+      font-size: clamp(2.75rem, 9vw, 4rem);
+      font-weight: 400;
+      margin: 0 0 0.35rem;
+      color: var(--blood);
+      text-shadow: 0 0 48px var(--blood-dim), 0 2px 0 #1a0508;
+      letter-spacing: 0.02em;
+    }
+
+    .site-header .subtitle {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .chapter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .chapter-card {
+      display: grid;
+      grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+      align-items: stretch;
+      min-height: 200px;
+      background: linear-gradient(145deg, var(--surface) 0%, var(--surface-2) 100%);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.5),
+        0 24px 48px rgba(0, 0, 0, 0.55);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .chapter-card:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 32px 64px rgba(0, 0, 0, 0.65);
+    }
+
+    .chapter-card--1 { --accent: var(--blood); --accent-glow: var(--blood-dim); }
+    .chapter-card--2 { --accent: var(--ice); --accent-glow: var(--ice-dim); }
+    .chapter-card--3 { --accent: #2ee59d; --accent-glow: var(--moss-dim); }
+    .chapter-card--4 { --accent: var(--violet); --accent-glow: var(--violet-dim); }
+
+    .chapter-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+      border-radius: var(--radius) 0 0 var(--radius);
+      pointer-events: none;
+    }
+
+    .chapter-card {
+      position: relative;
+    }
+
+    .chapter-card__media {
+      position: relative;
+      min-height: 200px;
+      background: #08080c;
+    }
+
+    .chapter-card__media img {
+      width: 100%;
+      height: 100%;
+      min-height: 200px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .chapter-card__media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 40%, var(--surface) 100%);
+      pointer-events: none;
+    }
+
+    .chapter-card__body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1.5rem 1.75rem 1.5rem 1.25rem;
+      gap: 0.35rem;
+    }
+
+    .chapter-card__label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .chapter-card__title {
+      font-family: "Creepster", cursive;
+      font-size: clamp(1.65rem, 4vw, 2.1rem);
+      font-weight: 400;
+      margin: 0;
+      color: var(--text);
+      line-height: 1.15;
+    }
+
+    .chapter-card__villain {
+      margin: 0.15rem 0 0.35rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #b8bcc9;
+    }
+
+    .chapter-card__villain span {
+      color: var(--accent);
+    }
+
+    .chapter-card__desc {
+      margin: 0 0 1rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 36rem;
+    }
+
+    .chapter-card__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: auto;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.35rem;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-download:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-download:active {
+      transform: translateY(0);
+    }
+
+    .btn-download small {
+      display: block;
+      width: 100%;
+      font-size: 0.65rem;
+      font-weight: 600;
+      opacity: 0.88;
+      letter-spacing: 0.06em;
+    }
+
+    .chapter-card--1 .btn-download {
+      background: linear-gradient(135deg, #6b1428, #c41e3a);
+      border: 1px solid rgba(255, 120, 140, 0.4);
+      box-shadow: 0 0 24px var(--blood-dim), 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .chapter-card--2 .btn-download {
+      background: linear-gradient(135deg, #153a72, #2563eb);
+      border: 1px solid rgba(130, 180, 255, 0.45);
+      box-shadow: 0 0 24px var(--ice-dim), 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .chapter-card--3 .btn-download {
+      background: linear-gradient(135deg, #14532d, #16a34a);
+      border: 1px solid rgba(110, 255, 170, 0.35);
+      box-shadow: 0 0 24px var(--moss-dim), 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .chapter-card--4 .btn-download {
+      background: linear-gradient(135deg, #4c1d95, #9333ea);
+      border: 1px solid rgba(200, 150, 255, 0.4);
+      box-shadow: 0 0 24px var(--violet-dim), 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .site-footer {
+      margin-top: 3rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .site-footer a {
+      color: var(--ice);
+    }
+
+    @media (max-width: 768px) {
+      .chapter-card {
+        grid-template-columns: 1fr;
+      }
+
+      .chapter-card__media {
+        min-height: 180px;
+        max-height: 220px;
+      }
+
+      .chapter-card__media img {
+        min-height: 180px;
+        max-height: 220px;
+      }
+
+      .chapter-card__media::after {
+        background: linear-gradient(180deg, transparent 50%, var(--surface) 100%);
+      }
+
+      .chapter-card__body {
+        padding: 1.35rem 1.25rem 1.5rem;
+      }
+
+      .btn-download {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="site-header">
+      <p class="warning">WARNING: ENTER TOY FACTORY AT YOUR OWN RISK.</p>
+      <h1>Poppy Playtime</h1>
+      <p class="subtitle">Four chapters. One factory. Download each chapter from Google Drive — Android builds.</p>
+    </header>
+
+    <!--
+      Swap image src to your own files in /images/ if you prefer (e.g. images/huggy-wuggy.jpg).
+      Current art: official Steam store headers per chapter (promotional).
+    -->
+    <div class="chapter-list" role="list">
+      <article class="chapter-card chapter-card--1" role="listitem">
+        <div class="chapter-card__media">
+          <img
+            src="https://cdn.akamai.steamstatic.com/steam/apps/1721470/header.jpg"
+            alt="Huggy Wuggy — Poppy Playtime Chapter 1: A Tight Squeeze"
+            width="460"
+            height="215"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="chapter-card__body">
+          <span class="chapter-card__label">Chapter 01</span>
+          <h2 class="chapter-card__title">A Tight Squeeze</h2>
+          <p class="chapter-card__villain">Main character: <span>Huggy Wuggy</span></p>
+          <p class="chapter-card__desc">The abandoned factory opens. The GrabPack, the vents, and something smiling in the dark.</p>
+          <div class="chapter-card__actions">
+            <a
+              class="btn-download"
+              href="https://drive.google.com/uc?export=download&amp;id=1R-AGe_UCPo25hSmWDHVLv31Y9Q-fsEa9"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download from Google Drive
+              <small>Chapter 1 · Android</small>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter-card chapter-card--2" role="listitem">
+        <div class="chapter-card__media">
+          <img
+            src="https://cdn.akamai.steamstatic.com/steam/apps/1817490/header.jpg"
+            alt="Mommy Long Legs — Poppy Playtime Chapter 2: Fly in a Web"
+            width="460"
+            height="215"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="chapter-card__body">
+          <span class="chapter-card__label">Chapter 02</span>
+          <h2 class="chapter-card__title">Fly in a Web</h2>
+          <p class="chapter-card__villain">Main character: <span>Mommy Long Legs</span></p>
+          <p class="chapter-card__desc">Deeper into Playtime Co. — games become traps, and the web pulls tighter.</p>
+          <div class="chapter-card__actions">
+            <a
+              class="btn-download"
+              href="https://drive.google.com/uc?export=download&amp;id=1mI9HhJvLkmsuxpi6AiQE63_gLfa41T1e"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download from Google Drive
+              <small>Chapter 2 · Android</small>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter-card chapter-card--3" role="listitem">
+        <div class="chapter-card__media">
+          <img
+            src="https://cdn.akamai.steamstatic.com/steam/apps/2555190/header.jpg"
+            alt="CatNap — Poppy Playtime Chapter 3: Deep Sleep"
+            width="460"
+            height="215"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="chapter-card__body">
+          <span class="chapter-card__label">Chapter 03</span>
+          <h2 class="chapter-card__title">Deep Sleep</h2>
+          <p class="chapter-card__villain">Main character: <span>CatNap</span></p>
+          <p class="chapter-card__desc">Playcare and what lies beneath — smoke, ritual, and red smoke in the halls.</p>
+          <div class="chapter-card__actions">
+            <a
+              class="btn-download"
+              href="https://drive.google.com/uc?export=download&amp;id=10JIscpfE0EyQGIrhf9fcwnOhrs_CS3AW"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download from Google Drive
+              <small>Chapter 3 · Android</small>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter-card chapter-card--4" role="listitem">
+        <div class="chapter-card__media">
+          <img
+            src="https://cdn.akamai.steamstatic.com/steam/apps/3008670/header.jpg"
+            alt="Poppy Playtime Chapter 4: Safe Haven — main threat"
+            width="460"
+            height="215"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="chapter-card__body">
+          <span class="chapter-card__label">Chapter 04</span>
+          <h2 class="chapter-card__title">Safe Haven</h2>
+          <p class="chapter-card__villain">Main character: <span>The Nightmare</span></p>
+          <p class="chapter-card__desc">Nowhere is safe — new depths, new hunters, and the factory’s worst secrets.</p>
+          <div class="chapter-card__actions">
+            <a
+              class="btn-download"
+              href="https://drive.google.com/uc?export=download&amp;id=1kwTCFIdAKkBNpXiPMwSJG1fM3VCzuVNe"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download from Google Drive
+              <small>Chapter 4 · Android</small>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <footer class="site-footer">
+      <p>
+        Fan page. “Poppy Playtime” and related marks belong to
+        <a href="https://www.mobentertainment.com/" target="_blank" rel="noopener noreferrer">Mob Entertainment</a>.
+        Chapter downloads are hosted on Google Drive by the site owner. Header art via Steam promotional assets.
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
